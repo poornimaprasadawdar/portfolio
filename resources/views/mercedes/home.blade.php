@@ -237,137 +237,96 @@
 </section>
 
 <section class="vehicle-finance-section py-5">
-    <div class="container">
-        <div id="carFinanceCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="row g-4">
+<div class="container">
 
-                       
-                        <div class="col-lg-4">
-                            <div class="car-card">
-                                <img src="{{ asset('images/slide1.avif') }}" alt="A-Class">
-                                <div class="car-card-body">
-                                    <h4>A-Class</h4>
-                                    <p class="price">Starting from 45,95,000/-</p>
-                                    <ul>
-                                        <li>EMI starting from INR 50,696 with Down Payment of 13 Lakhs</li>
-                                        <li>Service Package & Extended Warranty for 4 years</li>
-                                    </ul>
-                                    <a href="#" class="own-car-btn">Own a S-Class</a>
-                                </div>
-                            </div>
-                        </div>
+<div id="carFinanceCarousel" class="carousel slide" data-bs-ride="carousel">
 
-                        
-                        <div class="col-lg-4">
-                            <div class="car-card">
-                                <img src="{{ asset('images/slide2.jpg') }}" alt="C-Class">
-                                <div class="car-card-body">
-                                    <h4>C-Class</h4>
-                                    <p class="price">Starting from 59,90,000/-</p>
-                                    <ul>
-                                        <li>ROI starting from 6.99%</li>
-                                        <li>EMI starting from INR 50,927 with Down Payment of 15 Lakhs</li>
-                                    </ul>
-                                    <a href="#" class="own-car-btn">Own a S-Class</a>
-                                </div>
-                            </div>
-                        </div>
+<div class="carousel-inner">
 
-                        
-                        <div class="col-lg-4">
-                            <div class="car-card">
-                                <img src="{{ asset('images/slide3.webp') }}" alt="E-Class">
-                                <div class="car-card-body">
-                                    <h4>E-Class LWB</h4>
-                                    <p class="price">Starting from 82,00,000/-</p>
-                                    <ul>
-                                        <li>Get Flexible Plans</li>
-                                        <li>EMI starting from INR 80,318</li>
-                                        <li>Assured Buy Back Value up to 67%</li>
-                                    </ul>
-                                    <a href="#" class="own-car-btn">Own a S-Class</a>
-                                </div>
-                            </div>
-                        </div>
+@php
+$images = [
+'images/slide1.avif',
+'images/slide2.jpg',
+'images/slide3.webp',
+'images/slide4.avif',
+'images/slide5.avif',
+'images/slide6.avif'
+];
+$imageIndex = 0;
+@endphp
 
-                    </div>
-                </div>
+@foreach($products->chunk(3) as $chunkIndex => $productChunk)
 
-               
-                <div class="carousel-item active">
-                    <div class="row g-4">
+<div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
+<div class="row g-4">
 
-                        
-                        <div class="col-lg-4">
-                            <div class="car-card">
-                                <img src="{{ asset('images/slide4.avif') }}" alt="A-Class">
-                                <div class="car-card-body">
-                                    <h4>A-Class</h4>
-                                    <p class="price">Starting from 45,95,000/-</p>
-                                    <ul>
-                                        <li>EMI starting from INR 50,696 with Down Payment of 13 Lakhs</li>
-                                        <li>Service Package & Extended Warranty for 4 years</li>
-                                    </ul>
-                                    <a href="#" class="own-car-btn">Own a S-Class</a>
-                                </div>
-                            </div>
-                        </div>
+@foreach($productChunk as $product)
 
-                       
-                        <div class="col-lg-4">
-                            <div class="car-card">
-                                <img src="{{ asset('images/slide5.avif') }}" alt="C-Class">
-                                <div class="car-card-body">
-                                    <h4>C-Class</h4>
-                                    <p class="price">Starting from 59,90,000/-</p>
-                                    <ul>
-                                        <li>ROI starting from 6.99%</li>
-                                        <li>EMI starting from INR 50,927 with Down Payment of 15 Lakhs</li>
-                                    </ul>
-                                    <br>
-                                    <a href="#" class="own-car-btn">Own a S-Class</a>
-                                </div>
-                            </div>
-                        </div>
+<div class="col-lg-4">
 
-                       
-                        <div class="col-lg-4">
-                            <div class="car-card">
-                                <img src="{{ asset('images/slide6.avif') }}" alt="E-Class">
-                                <div class="car-card-body">
-                                    <h4>E-Class LWB</h4>
-                                    <p class="price">Starting from 82,00,000/-</p>
-                                    <ul>
-                                        <li>Get Flexible Plans</li>
-                                        <li>EMI starting from INR 80,318</li>
-                                        <li>Assured Buy Back Value up to 67%</li>
-                                    </ul>
-                                    <br>
-                                    <a href="#" class="own-car-btn">Own a S-Class</a>
-                                </div>
-                            </div>
-                        </div>
+<div class="car-card">
 
-                    </div>
-                </div>
+<div class="car-img">
+<img src="{{ asset($images[$imageIndex] ?? 'images/carimage.avif') }}">
+</div>
 
-           
-            <button class="carousel-control-prev" type="button" data-bs-target="#carFinanceCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </button>
+<div class="car-card-body">
 
-            <button class="carousel-control-next" type="button" data-bs-target="#carFinanceCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </button>
+<h4>{{ $product->name }}</h4>
 
-        </div>
+<p class="price">
+Starting from ₹ {{ number_format($product->price) }}
+</p>
 
-    </div>
+<ul>
+<li>Flexible EMI plans available</li>
+<li>Service Package & Extended Warranty</li>
+</ul>
 
+<a href="{{ route('mercedes.product-details',$product->id) }}" class="own-car-btn">
+View Details
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+@php $imageIndex++; @endphp
+
+@endforeach
+
+</div>
+</div>
+
+@endforeach
+
+</div>
+
+
+<button class="carousel-control-prev"
+type="button"
+data-bs-target="#carFinanceCarousel"
+data-bs-slide="prev">
+
+<span class="carousel-control-prev-icon"></span>
+
+</button>
+
+<button class="carousel-control-next"
+type="button"
+data-bs-target="#carFinanceCarousel"
+data-bs-slide="next">
+
+<span class="carousel-control-next-icon"></span>
+
+</button>
+
+</div>
+
+</div>
 </section>
-
 
 <footer class="main-footer">
 
@@ -412,16 +371,22 @@
 
             
             <div class="col-lg-2 col-md-4">
-                <h6>Owners</h6>
-                <ul>
-                    <li>Book a service appointment</li>
-                    <li>Owner's Manuals</li>
-                    <li>Service warranty terms and conditions</li>
-                    <li>Grievance Redressal Mechanism</li>
-                    <li>FAQ</li>
-                    <li>How-To Videos</li>
-                </ul>
-            </div>
+<h6>Owners</h6>
+<ul>
+<li>Book a service appointment</li>
+<li>Owner's Manuals</li>
+
+<li>
+<a href="{{ route('warranty') }}" class="footer-link">
+Service warranty terms and conditions
+</a>
+</li>
+
+<li>Grievance Redressal Mechanism</li>
+<li>FAQ</li>
+<li>How-To Videos</li>
+</ul>
+</div>
 
           
             <div class="col-lg-2 col-md-4">
