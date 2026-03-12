@@ -86,4 +86,13 @@ $category->save();
 return response()->json(['success'=>true]);
 }
 
+public function edit($id)
+{
+    $product = \App\Models\Product::find($id);
+
+    return response()->json([
+        'data' => $product
+    ]);
+}
+
 }

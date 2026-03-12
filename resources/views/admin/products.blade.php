@@ -18,7 +18,7 @@ Add Product
 <th>ID</th>
 <th>Name</th>
 <th>Price</th>
-<th>Category ID</th>
+<th>Category</th>
 <th>Description</th>
 <th>Created</th>
 <th>Updated</th>
@@ -37,9 +37,15 @@ Add Product
 
 <td>{{ $product->name }}</td>
 
-<td>{{ $product->price }}</td>
+<td>₹ {{ number_format($product->price) }}</td>
 
-<td>{{ $product->category_id }}</td>
+<td>
+@foreach($categories as $category)
+@if($category->id == $product->category_id)
+{{ $category->name }}
+@endif
+@endforeach
+</td>
 
 <td>{{ $product->description }}</td>
 
@@ -49,21 +55,13 @@ Add Product
 
 <td>
 
-<button
-class="btn btn-warning btn-sm editBtn"
-data-id="{{ $product->id }}"
-data-name="{{ $product->name }}"
-data-price="{{ $product->price }}"
-data-category="{{ $product->category_id }}"
-data-description="{{ $product->description }}"
-
->
-
+<button class="btn btn-warning btn-sm editBtn"
+data-id="{{ $product->id }}">
 Edit </button>
 
-<a href="/admin/products/delete/{{ $product->id }}" class="btn btn-danger btn-sm">
-Delete
-</a>
+<a href="{{ route('admin.products.delete',$product->id) }}"
+class="btn btn-danger btn-sm">
+Delete </a>
 
 </td>
 
@@ -77,7 +75,7 @@ Delete
 
 </div>
 
-
+<!-- ADD PRODUCT MODAL -->
 
 <div class="modal fade" id="addProduct">
 
@@ -85,7 +83,7 @@ Delete
 
 <div class="modal-content">
 
-<form method="POST" action="/admin/products/store">
+<form method="POST" action="{{ route('admin.products.store') }}">
 
 @csrf
 
@@ -103,14 +101,14 @@ Delete
 
 <input type="number" name="price" class="form-control mb-3" placeholder="Price" required>
 
-<select name="category_id" class="form-control mb-3">
+<select name="category_id" class="form-control mb-3" required>
 
 <option value="">Select Category</option>
 
 @foreach($categories as $category)
 
 <option value="{{ $category->id }}">
-{{ $category->id }}
+{{ $category->name }}
 </option>
 
 @endforeach
@@ -123,7 +121,9 @@ Delete
 
 <div class="modal-footer">
 
-<button class="btn btn-success">Save</button>
+<button class="btn btn-success">
+Save
+</button>
 
 </div>
 
@@ -135,7 +135,7 @@ Delete
 
 </div>
 
-
+<!-- EDIT PRODUCT MODAL -->
 
 <div class="modal fade" id="editProduct">
 
@@ -143,7 +143,7 @@ Delete
 
 <div class="modal-content">
 
-<form method="POST" action="/admin/products/update">
+<form method="POST" action="{{ route('admin.products.update') }}">
 
 @csrf
 
@@ -168,7 +168,7 @@ Delete
 @foreach($categories as $category)
 
 <option value="{{ $category->id }}">
-{{ $category->id }}
+{{ $category->name }}
 </option>
 
 @endforeach
@@ -181,7 +181,9 @@ Delete
 
 <div class="modal-footer">
 
-<button class="btn btn-primary">Update</button>
+<button class="btn btn-primary">
+Update
+</button>
 
 </div>
 
@@ -201,20 +203,28 @@ $(document).ready(function(){
 
 $('.editBtn').click(function(){
 
-let id = $(this).data('id');
-let name = $(this).data('name');
-let price = $(this).data('price');
-let category = $(this).data('category');
-let description = $(this).data('description');
+var id = $(this).data('id');
 
-$('#edit_id').val(id);
-$('#edit_name').val(name);
-$('#edit_price').val(price);
-$('#edit_category').val(category);
-$('#edit_description').val(description);
+$.ajax({
 
-let modal = new bootstrap.Modal(document.getElementById('editProduct'));
+url:'/admin/products/edit/'+id,
+
+type:'GET',
+
+success:function(response){
+
+$('#edit_id').val(response.data.id);
+$('#edit_name').val(response.data.name);
+$('#edit_price').val(response.data.price);
+$('#edit_category').val(response.data.category_id);
+$('#edit_description').val(response.data.description);
+
+var modal = new bootstrap.Modal(document.getElementById('editProduct'));
 modal.show();
+
+}
+
+});
 
 });
 

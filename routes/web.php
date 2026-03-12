@@ -73,7 +73,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/products/delete/{id}', [ProductController::class, 'delete'])
         ->name('admin.products.delete');
 
-
+Route::get('/products/edit/{id}', [ProductController::class, 'edit'])
+    ->name('admin.products.edit');
   
 
     Route::get('/categories', [CategoryController::class, 'index'])

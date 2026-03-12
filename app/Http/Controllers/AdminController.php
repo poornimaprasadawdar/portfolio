@@ -3,101 +3,108 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File; 
 use App\Models\User; 
 use App\Models\Product;
 use App\Models\Category;
 
-
 class AdminController extends Controller
 {
-    // Show admin dashboard
     public function dashboard()
     {
-        // Hide admin users
-        $users = DB::table('users')
-                    ->where('role', '!=', 'admin')
-                    ->get();
-                    
-
-
+        
+        $users = User::where('role', '!=', 'admin')->get();
         return view('admin.dashboard', compact('users'));
     }
 
-    // Add user
     public function store(Request $request)
-{
-    $user = new User();
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->password = Hash::make($request->password);
-    $user->role = 'user';
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone; 
+        $user->password = Hash::make($request->password);
+        $user->role = 'user';
 
-    if ($request->hasFile('photo')) {
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $filename);
+            $user->photo = $filename;
+        }
 
-        $image = $request->file('photo');
-
-        $filename = time().'.'.$image->getClientOriginalExtension();
-
-        // move image to public/images folder
-        $image->move(public_path('images'), $filename);
-
-        $user->photo = $filename;
+        $user->save();
+        return redirect()->back()->with('success', 'User Added Successfully');
     }
 
-    $user->save();
-
-    return redirect()->back()->with('success','User Added Successfully');
-}
-    // Update user
     public function update(Request $request)
     {
         $user = User::find($request->id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found');
+        }
 
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->role = $request->role;
 
-        $user->save();
+        if ($request->hasFile('photo')) {
+            
+            if ($user->photo && File::exists(public_path('images/' . $user->photo))) {
+                File::delete(public_path('images/' . $user->photo));
+            }
 
-        return redirect()->back()->with('success','User updated successfully');
+            $image = $request->file('photo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $filename);
+            
+            $user->photo = $filename;
+        }
+
+        $user->save();
+        return redirect()->back()->with('success', 'User updated successfully');
     }
 
-    // Delete user
     public function delete($id)
     {
-        DB::table('users')->where('id',$id)->delete();
+        $user = User::find($id);
 
-        return redirect()->back()->with('success','User Deleted Successfully');
+        if ($user) {
+            
+            if ($user->photo && File::exists(public_path('images/' . $user->photo))) {
+                File::delete(public_path('images/' . $user->photo));
+            }
+            $user->delete();
+        }
+
+        return redirect()->back()->with('success', 'User Deleted Successfully');
     }
 
     public function productsList()
-{
+    {
+        $products = Product::join('categories', 'products.category_id', '=', 'categories.id')
+            ->select(
+                'products.id',
+                'products.name',
+                'products.price',
+                'products.description',
+                'categories.name as category'
+            )
+            ->get();
 
-$products = Product::join('categories','products.category_id','=','categories.id')
+        return view('admin.products', compact('products'));
+    }
 
-->select(
-'products.id',
-'products.name',
-'products.price',
-'products.description',
-'categories.name as category'
-)
+    public function deleteProduct($id)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            $product->delete();
+        }
 
-->get();
-
-return view('admin.products',compact('products'));
-
-}
-
-public function deleteProduct($id)
-{
-
-Product::find($id)->delete();
-
-return redirect()->back()->with('success','Product Deleted');
-
-}
+        return redirect()->back()->with('success', 'Product Deleted');
+    }
 }
