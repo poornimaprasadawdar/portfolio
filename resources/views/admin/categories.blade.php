@@ -41,7 +41,6 @@ class="form-check-input statusToggle"
 type="checkbox"
 data-id="{{ $category->id }}"
 {{ $category->status == 'active' ? 'checked' : '' }}
-
 >
 
 </div>

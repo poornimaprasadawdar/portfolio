@@ -177,7 +177,7 @@
 
 <script>
 $(document).ready(function(){
-    // Search Functionality
+    
     $("#searchBtn").click(function(){
         let value = $("#searchInput").val().toLowerCase();
         $("#userTable tr").filter(function(){
@@ -185,7 +185,7 @@ $(document).ready(function(){
         });
     });
 
-    // Edit Button Logic
+    
     $(".editBtn").click(function(){
         let row = $(this).closest("tr");
         let id = $(this).data("id");

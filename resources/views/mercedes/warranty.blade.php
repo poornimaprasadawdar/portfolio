@@ -4,13 +4,15 @@
 
 @section('content')
 
-<section class="benz-hero">
-    <div class="benz-overlay"></div>
+<section class="benz-hero" style="background: url('{{ asset('uploads/warrantybanner.avif') }}') no-repeat center center / cover;">
 
+    <div class="benz-overlay"></div>
+    
     <div class="benz-hero-content">
         <h1>Mobilo and Warranty</h1>
         <p>Stay on the move...Always</p>
     </div>
+
 </section>
 <br><br>
 
@@ -41,7 +43,7 @@
             
             <div class="col-lg-4">
                 <div class="benz-card">
-                    <img src="{{ asset('images/mobilo.avif') }}" alt="Mobilo">
+                    <img src="{{ asset('uploads/mobilo.avif') }}" alt="Mobilo">
                     <div class="benz-card-body">
                         <h5>Mobilo</h5>
                         <p>Support.Any time, any place and any situation.</p>
@@ -54,7 +56,7 @@
             
             <div class="col-lg-4">
                 <div class="benz-card">
-                    <img src="{{ asset('images/warranty.avif') }}" alt="Warranty">
+                    <img src="{{ asset('uploads/warranty.avif') }}" alt="Warranty">
                     <div class="benz-card-body">
                         <h5>Warranty</h5>
                         <p>Dependable warranty for reliable automobiles.</p>
@@ -67,7 +69,7 @@
             
             <div class="col-lg-4">
                 <div class="benz-card position-relative">
-                    <img src="{{ asset('images/eq-warranty.avif') }}" alt="EQ Warranty">
+                    <img src="{{ asset('uploads/EQ.avif') }}" alt="EQ Warranty">
 
                     <div class="arrow-circle">
                         →

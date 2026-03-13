@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
         </div>
 
         <div class="logo text-center">
-            <img src="{{ asset('images/mercedes-logo.png') }}" height="40" alt="Mercedes Logo">
+            <img src="{{ asset('uploads/logo.apng') }}" height="40" alt="Mercedes Logo">
         </div>
 
         <div class="right-icons d-flex align-items-center gap-3">
@@ -43,7 +43,7 @@ use Illuminate\Support\Facades\Auth;
             @auth
                 <div class="dropdown d-flex align-items-center">
 
-                    <img src="{{ Auth::user()->photo ? asset('uploads/'.Auth::user()->photo) : asset('images/default-user.png') }}"
+                    <img src="{{ Auth::user()->photo ? asset('images/'.Auth::user()->photo) : asset('images/default-user.png') }}"
                          width="40"
                          height="40"
                          style="border-radius:50%; object-fit:cover; margin-right:8px;">

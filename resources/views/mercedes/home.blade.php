@@ -5,7 +5,7 @@
 @section('content')
 
 <section class="hero"
-    style="background: url('{{ asset('images/image1.jpg') }}') no-repeat center center / cover;">
+    style="background: url('{{ asset('uploads/banner.jpg') }}') no-repeat center center / cover;">
     <div class="overlay"></div>
     <div class="hero-content">
         <h1>Ownership is<br>Effortless!</h1>
@@ -20,7 +20,7 @@
     <div class="container">
         <div class="row shadow-lg">
             <div class="col-md-5 car-info p-5">
-                <img src="{{ asset('images/carimage.avif') }}"
+                <img src="{{ asset('uploads/car.png') }}"
                      class="img-fluid mb-4"
                      alt="A200">
                 <h2 class="mb-4">A 200</h2>
@@ -59,7 +59,7 @@
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="finance-card">
-                    <img src="{{ asset('images/person1.avif') }}"
+                    <img src="{{ asset('uploads/image1.avif') }}"
                          class="img-fluid"
                          alt="Standard financing">
                     <div class="finance-content p-4">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-6">
                 <div class="finance-card">
-                    <img src="{{ asset('images/person2.jpg') }}"
+                    <img src="{{ asset('uploads/image2.jpg') }}"
                          class="img-fluid"
                          alt="STAR Agility+">
                     <div class="finance-content p-4">
@@ -128,7 +128,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 mb-4 mb-md-0">
-                <img src="{{ asset('images/person3.jpg') }}"
+                <img src="{{ asset('uploads/image3.webp') }}"
                      class="img-fluid"
                      alt="STAR Finance">
             </div>
@@ -199,7 +199,7 @@
 
 <section class="finance-video-section">
     <div class="video-wrapper">
-        <img src="{{ asset('images/videobg.png') }}" 
+        <img src="{{ asset('uploads/videobg.png') }}" 
              class="video-bg" 
              alt="Finance Video">
         <div class="video-overlay"></div>
@@ -245,12 +245,12 @@
 
 @php
 $images = [
-'images/slide1.avif',
-'images/slide2.jpg',
-'images/slide3.webp',
-'images/slide4.avif',
-'images/slide5.avif',
-'images/slide6.avif'
+'uploads/carousel1.avif',
+'uploads/carousel2.jpg',
+'uploads/carousel3.webp',
+'uploads/carousel4.avif',
+'uploads/carousel5.avif',
+'uploads/carousel6.avif'
 ];
 $imageIndex = 0;
 @endphp

@@ -17,6 +17,7 @@ Add Product
 <tr>
 <th>ID</th>
 <th>Name</th>
+<th>Images</th>
 <th>Price</th>
 <th>Category</th>
 <th>Description</th>
@@ -36,6 +37,17 @@ Add Product
 <td>{{ $product->id }}</td>
 
 <td>{{ $product->name }}</td>
+
+<td>
+
+@foreach($product->images as $img)
+
+<img src="{{ asset('product_images/'.$img->name) }}"
+width="50" height="50" class="me-1 mb-1">
+
+@endforeach
+
+</td>
 
 <td>₹ {{ number_format($product->price) }}</td>
 
@@ -57,11 +69,13 @@ Add Product
 
 <button class="btn btn-warning btn-sm editBtn"
 data-id="{{ $product->id }}">
-Edit </button>
+Edit
+</button>
 
 <a href="{{ route('admin.products.delete',$product->id) }}"
 class="btn btn-danger btn-sm">
-Delete </a>
+Delete
+</a>
 
 </td>
 
@@ -75,7 +89,9 @@ Delete </a>
 
 </div>
 
-<!-- ADD PRODUCT MODAL -->
+
+
+<!-- Add Product Modal -->
 
 <div class="modal fade" id="addProduct">
 
@@ -83,7 +99,7 @@ Delete </a>
 
 <div class="modal-content">
 
-<form method="POST" action="{{ route('admin.products.store') }}">
+<form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data">
 
 @csrf
 
@@ -115,7 +131,33 @@ Delete </a>
 
 </select>
 
-<textarea name="description" class="form-control" placeholder="Description"></textarea>
+<textarea name="description" class="form-control mb-3" placeholder="Description"></textarea>
+
+
+<!-- Multiple Images Upload -->
+
+<label class="fw-bold">Product Images</label>
+
+<table class="table table-bordered" id="imageTable">
+
+<tr>
+<th>Image</th>
+<th width="100">Action</th>
+</tr>
+
+<tr>
+
+<td>
+<input type="file" name="images[]" class="form-control">
+</td>
+
+<td>
+<button type="button" class="btn btn-success addRow">+</button>
+</td>
+
+</tr>
+
+</table>
 
 </div>
 
@@ -135,7 +177,9 @@ Save
 
 </div>
 
-<!-- EDIT PRODUCT MODAL -->
+
+
+<!-- Edit Product Modal -->
 
 <div class="modal fade" id="editProduct">
 
@@ -195,6 +239,8 @@ Update
 
 </div>
 
+
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
@@ -227,6 +273,31 @@ modal.show();
 });
 
 });
+
+});
+
+
+$(document).on('click','.addRow',function(){
+
+var row = `
+<tr>
+<td>
+<input type="file" name="images[]" class="form-control">
+</td>
+<td>
+<button type="button" class="btn btn-danger removeRow">-</button>
+</td>
+</tr>
+`;
+
+$('#imageTable').append(row);
+
+});
+
+
+$(document).on('click','.removeRow',function(){
+
+$(this).closest('tr').remove();
 
 });
 

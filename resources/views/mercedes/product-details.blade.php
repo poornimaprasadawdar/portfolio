@@ -75,8 +75,24 @@ Finance your {{ $product->name }}.
 
 <div class="col-md-5 car-info p-5">
 
-<img src="{{ asset('images/carimage.avif') }}"
+{{-- Product Images --}}
+
+@if($product->images->count() > 0)
+
+@foreach($product->images as $img)
+
+<img src="{{ asset('product_images/'.$img->name) }}"
+class="img-fluid mb-3">
+
+@endforeach
+
+@else
+
+<img src="{{ asset('uploads/car.png') }}"
 class="img-fluid mb-4">
+
+@endif
+
 
 <h2 class="mb-4">{{ $product->name }}</h2>
 
@@ -159,6 +175,5 @@ Download the eBrochure of the {{ $product->name }} here.
 </div>
 
 </section>
-
 
 @endsection
